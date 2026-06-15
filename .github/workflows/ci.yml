@@ -1,0 +1,21 @@
+name: Frontend CI
+
+on:
+  pull_request:
+    branches:
+      - dev
+      - main
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Verify project files
+        run: |
+          test -f index.html
+          test -f results.html
+          test -f details.html
