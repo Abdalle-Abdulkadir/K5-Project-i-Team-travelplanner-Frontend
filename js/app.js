@@ -1,6 +1,6 @@
 const searchForm = document.querySelector(".search-form");
 
-searchForm.addEventListener("submit", (event) => {
+searchForm.addEventListener("submit", async (event) => {
   event.preventDefault();
 
   const budget = document.querySelector("#budget").value;
@@ -44,9 +44,24 @@ searchForm.addEventListener("submit", (event) => {
     days,
     departureDate,
   };
-  console.log(searchData);
 
-  localStorage.setItem("searchData", JSON.stringify(searchData));
+  const searchButton = document.querySelector('button[type="submit"]');
 
-  window.location.href = "results.html";
+  searchButton.disabled = true;
+  document.body.style.cursor = "wait";
+  searchButton.textContent = "⏳ Generating plan...";
+
+  try {
+    const travelPlan = await createTravelPlan(searchData);
+
+    localStorage.setItem("travelPlan", JSON.stringify(travelPlan));
+
+    window.location.href = "results.html";
+  } catch (error) {
+    alert("Something went wrong.\nPlease check your API key.");
+
+    searchButton.disabled = false;
+    document.body.style.cursor = "default";
+    searchButton.textContent = "Search";
+  }
 });
