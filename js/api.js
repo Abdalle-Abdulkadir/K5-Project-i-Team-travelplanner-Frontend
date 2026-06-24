@@ -1,3 +1,5 @@
+const API_BASE_URL = window.API_BASE_URL;
+
 async function createTravelPlan(request) {
   const response = await fetch(`${API_BASE_URL}/api/travel/destinations`, {
     method: "POST",
